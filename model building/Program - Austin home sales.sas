@@ -1,0 +1,120 @@
+options nonumber nodate;
+
+data HOMES;
+  input year month $ sales;
+  T1 = _n_;
+  T2 = T1**2;
+  T3 = T1**3;
+  M1 = (month='Jan');
+  M2 = (month='Feb');
+  M3 = (month='Mar');
+  M4 = (month='Apr');
+  M5 = (month='May');
+  M6 = (month='Jun');
+  M7 = (month='Jul');
+  M8 = (month='Aug');
+  M9 = (month='Sep');
+  M10= (month='Oct');
+  M11= (month='Nov');
+  M12= (month='Dec');
+cards;
+2000    Jan 1025
+2000    Feb 1277
+2000    Mar 1603
+2000    Apr 1556
+2000    May 1980
+2000    Jun 1885
+2000    Jul 1818
+2000    Aug 1880
+2000    Sep 1498
+2000    Oct 1524
+2000    Nov 1245
+2000    Dec 1330
+2001    Jan 1086
+2001    Feb 1213
+2001    Mar 1553
+2001    Apr 1579
+2001    May 1838
+2001    Jun 1857
+2001    Jul 1871
+2001    Aug 1801
+2001    Sep 1381
+2001    Oct 1351
+2001    Nov 1388
+2001    Dec 1474
+2002    Jan 1172
+2002    Feb 1407
+2002    Mar 1550
+2002    Apr 1665
+2002    May 1931
+2002    Jun 1829
+2002    Jul 1729
+2002    Aug 1742
+2002    Sep 1407
+2002    Oct 1480
+2002    Nov 1304
+2002    Dec 1500
+2003    Jan 1094
+2003    Feb 1236
+2003    Mar 1522
+2003    Apr 1547
+2003    May 1652
+2003    Jun 1931
+2003    Jul 2048
+2003    Aug 2169
+2003    Sep 1898
+2003    Oct 1609
+2003    Nov 1362
+2003    Dec 1725
+2004    Jan 1096
+2004    Feb 1300
+2004    Mar 1650
+2004    Apr 2039
+2004    May 2084
+2004    Jun 2433
+2004    Jul 2377
+2004    Aug 2333
+2004    Sep 1927
+2004    Oct 1704
+2004    Nov 1630
+2004    Dec 1994
+2005    Jan 1430
+2005    Feb 1639
+2005    Mar 2167
+2005    Apr 2156
+2005    May 2496
+2005    Jun 2701
+2005    Jul 2715
+2005    Aug 2883
+2005    Sep 2495
+2005    Oct 2126
+2005    Nov 1975
+2005    Dec 2122
+2006    Jan 1694
+2006    Feb 1886
+2006    Mar 2605
+2006    Apr 2434
+2006    May 2948
+2006    Jun 3337
+2006    Jul 2989
+2006    Aug 3104
+2006    Sep 2586
+2006    Oct 2355
+2006    Nov 2141
+2006    Dec 2205
+2007    Jan 1644
+2007    Feb 1904
+2007    Mar 2602
+2007    Apr 2566
+2007    May 3012
+2007    Jun 3086
+2007    Jul 2959
+2007    Aug 2805
+2007    Sep 1984
+2007    Oct 1910
+2007    Nov 1805
+2007    Dec 1771
+RUN;
+proc reg data=HOMES;
+  model sales = T1 T2 T3 M1-M12 / selection=stepwise slentry=0.05  slstay=0.10;
+RUN;QUIT;
