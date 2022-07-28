@@ -1,0 +1,40 @@
+** ARIMA Demo **;
+PROC IMPORT DATAFILE="/home/tomsager/BA/Austin home sales data.xlsx"
+            OUT=WORK.Austin_homes
+            DBMS=XLSX
+            REPLACE;
+RUN;
+* Examine for stationarity;
+proc arima data=Austin_homes; 
+  identify var=sales nlags=24;
+run;
+* Difference for stationarity;
+proc arima data=Austin_homes; 
+  identify var=sales(12);
+run;
+proc arima data=Austin_homes; 
+  identify var=sales(1,12);
+run;
+* Fit a model to stationary time series;
+proc arima data=Austin_homes; 
+  identify var=sales(1,12);  * ARIMA machinery will be applied to sales differenced at lags 1 and 12;
+  estimate p=1; * AR(1) model;
+run;
+proc arima data=Austin_homes; 
+  identify var=sales(1,12);
+  estimate q=1; * MA(1) model;
+run;
+proc arima data=Austin_homes; 
+  identify var=sales(1,12);
+  estimate p=(1)(12); * Factored AR(1)(12) model;
+run;
+proc arima data=Austin_homes; 
+  identify var=sales(1,12);
+  estimate q=(1)(12); * Factored MA(1)(12) model;
+run;
+* Forecast 12 months ahead;
+proc arima data=Austin_homes; 
+  identify var=sales(1,12); * ARIMA machinery will be applied to sales differenced at lags 1 and 12;
+  estimate q=(1,12);        * MA model differenced at lags 1 and 12;
+  forecast lead=12;         * Forecast 12 months ahead with this model;
+run;
